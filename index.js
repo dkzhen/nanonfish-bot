@@ -8,7 +8,6 @@ configDotenv();
 main();
 mission();
 cron.schedule("0 * * * *", mission);
-cron.schedule("0 * * * *", main);
 
 // Start the server
 const port = process.env.PORT || 104;

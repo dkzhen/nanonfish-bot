@@ -8,18 +8,18 @@ async function main() {
     const tokens = await validateToken();
 
     for (const token of tokens) {
-      const infoGame = await getInfoGame(token.token);
-      let levelToBuy = infoGame.level - 5;
-
       while (true) {
         // Fetch the current gold value
         const validate = await validationStatus(token.token);
         if (validate === null) {
           console.log("You have logged on another device");
-          break;
+          await delay(5 * 60 * 1000);
+          continue;
         }
         gameStat(token.token);
         await composeFish(token.token);
+        const infoGame = await getInfoGame(token.token);
+        let levelToBuy = infoGame.level - 5;
         const buy = await buyFish(levelToBuy, token.token);
 
         if (buy.results[0] === "reach fish amount limit") {
@@ -63,7 +63,8 @@ async function gameStat(token) {
     const validate = await validationStatus(token);
     if (validate === null) {
       console.log("You have logged on another device");
-      break;
+      await delay(5 * 60 * 1000);
+      continue;
     }
     const infoGame = await getInfoGame(token);
     const statGame = {
@@ -110,6 +111,10 @@ function formatNumber(num) {
   } else {
     return num.toString();
   }
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 module.exports = { main, validationStatus };
