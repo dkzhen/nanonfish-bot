@@ -12,15 +12,17 @@ async function main() {
         // Fetch the current gold value
         let validate = await validationStatus(token.token);
         if (validate === null) {
-          console.log("You have logged on another device");
-          await delay(5 * 60 * 1000);
+          console.log("You have logged on another device  [ main ]");
+          await delay(60000);
           validate = await validationStatus(token);
+          console.log(validate);
+          main();
           continue;
         }
         gameStat(token.token);
         await composeFish(token.token);
         const infoGame = await getInfoGame(token.token);
-        let levelToBuy = infoGame.level - 5;
+        let levelToBuy = infoGame?.level - 5;
         const buy = await buyFish(levelToBuy, token.token);
 
         if (buy.results[0] === "reach fish amount limit") {
@@ -63,16 +65,18 @@ async function gameStat(token) {
   while (true) {
     let validate = await validationStatus(token);
     if (validate === null) {
-      console.log("You have logged on another device");
-      await delay(5 * 60 * 1000);
+      console.log("You have logged on another device [ Game stat ]");
+      await delay(60000);
       validate = await validationStatus(token);
+      console.log(validate);
+      gameStat();
       continue;
     }
     const infoGame = await getInfoGame(token);
     const statGame = {
-      gold: infoGame.gold,
-      diamond: infoGame.diamond,
-      level: infoGame.level,
+      gold: infoGame?.gold || 0,
+      diamond: infoGame?.diamond || 0,
+      level: infoGame?.level || 0,
     };
     console.log(createBoxedMessage(statGame));
 

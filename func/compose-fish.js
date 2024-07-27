@@ -15,7 +15,8 @@ async function composeFish(token) {
       );
       return info.data.data.fishes;
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      return;
     }
   }
 
@@ -68,7 +69,8 @@ async function composeFish(token) {
       fishes = await fetchFishes();
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return;
   }
 }
 
