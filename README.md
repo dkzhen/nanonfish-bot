@@ -3,7 +3,7 @@
 nanonfish-bot is a Telegram automation tool designed to help you manage and interact with [Nanon Fish bot](https://t.me/NanonFishBot/NanonFish?startapp=aW52aXRlQ29kZT1nN294ZDU5Mg).
 
 <p align="center">
-  <img src="public/nanonfish.png" alt="blum" width="300"/>
+  <img src="public/nanofish.png" alt="blum" width="300"/>
 </p>
 
 ### Features
