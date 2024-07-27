@@ -13,7 +13,7 @@ async function main() {
         let validate = await validationStatus(token.token);
         if (validate === null) {
           console.log("You have logged on another device  [ main ]");
-          await delay(60000);
+          await delay(5 * 60 * 1000);
           validate = await validationStatus(token);
           console.log(validate);
           main();
@@ -66,7 +66,7 @@ async function gameStat(token) {
     let validate = await validationStatus(token);
     if (validate === null) {
       console.log("You have logged on another device [ Game stat ]");
-      await delay(60000);
+      await delay(5 * 60 * 1000);
       validate = await validationStatus(token);
       console.log(validate);
       gameStat();
