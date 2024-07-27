@@ -10,10 +10,11 @@ async function main() {
     for (const token of tokens) {
       while (true) {
         // Fetch the current gold value
-        const validate = await validationStatus(token.token);
+        let validate = await validationStatus(token.token);
         if (validate === null) {
           console.log("You have logged on another device");
           await delay(5 * 60 * 1000);
+          validate = await validationStatus(token);
           continue;
         }
         gameStat(token.token);
@@ -60,10 +61,11 @@ const validationStatus = async (token) => {
 async function gameStat(token) {
   // Replace with your actual token
   while (true) {
-    const validate = await validationStatus(token);
+    let validate = await validationStatus(token);
     if (validate === null) {
       console.log("You have logged on another device");
       await delay(5 * 60 * 1000);
+      validate = await validationStatus(token);
       continue;
     }
     const infoGame = await getInfoGame(token);
