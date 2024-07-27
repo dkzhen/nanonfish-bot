@@ -14,6 +14,10 @@ nanonfish-bot is a Telegram automation tool designed to help you manage and inte
 - Auto combine fish
 - support multi account
 
+### WARNING
+
+PLEASE NOTE THAT IF YOU RUN IT THERE WILL BE A WARNING DEVICE LOGGED ON OTHER DEVICE , BECAUSE NANONFISH BOT ONLY SUPPORT ONE SESSION!!!!!!!!!
+
 ### How to use
 
 this bot running on my vps you can add your token query
