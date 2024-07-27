@@ -1,92 +1,79 @@
 const { default: axios } = require("axios");
 const { validateToken } = require("./CheckValidToken");
+const { validationStatus } = require("./main");
 
 exports.mission = async () => {
   try {
-    const token = await validateToken();
-
-    for (const t of token) {
-      const task = await axios.get(
-        "https://game-domain.blum.codes/api/v1/tasks",
-        {
-          headers: {
-            Authorization: `Bearer ${t.token}`,
-          },
-        }
-      );
-      const tasks = task.data;
-      const taskNotStarted = tasks.filter(
-        (item) =>
-          item.status === "NOT_STARTED" && item.type !== "PROGRESS_TARGET"
-      );
-
-      if (taskNotStarted.length > 0) {
-        for (const task of taskNotStarted) {
-          try {
-            const start = await axios.post(
-              `https://game-domain.blum.codes/api/v1/tasks/${task.id}/start`,
-              {},
-              {
-                headers: {
-                  Authorization: `Bearer ${t.token}`,
-                },
-              }
-            );
-            console.log(start.data);
-          } catch (error) {
-            console.log(error.message);
+    const tokens = await validateToken();
+    for (const token of tokens) {
+      const validate = await validationStatus(token.token);
+      if (validate !== null) {
+        const task = await axios.post(
+          "https://fishapi.xboost.io/zone/task/plist",
+          {},
+          {
+            headers: {
+              Authorization: `${token.token}`,
+            },
           }
+        );
+        const tasks = task.data.data.tasks;
+
+        const dailyTasks = tasks[0].tasks.filter(
+          (task) => task.finished === "" && task.title !== "Daily invite"
+        );
+        const basicTasks = tasks[1].tasks.filter(
+          (task) => task.finished === ""
+        );
+        if (basicTasks.length > 0) {
+          for (const task of basicTasks) {
+            try {
+              const claimtask = await claimTask(token.token, task.task_id);
+              console.log(claimtask);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        } else {
+          console.log("no basic task");
+        }
+
+        if (dailyTasks.length > 0) {
+          for (const task of dailyTasks) {
+            try {
+              const claimtask = await claimTask(token.token, task.task_id);
+              console.log(claimtask);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        } else {
+          console.log("no daily task");
         }
       } else {
-        console.log("No task not started");
+        console.log("You have logged on another device");
       }
     }
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
-exports.claimMission = async () => {
+const claimTask = async (token, taskId) => {
   try {
-    const token = await validateToken();
-
-    for (const t of token) {
-      const task = await axios.get(
-        "https://game-domain.blum.codes/api/v1/tasks",
-        {
-          headers: {
-            Authorization: `Bearer ${t.token}`,
-          },
-        }
-      );
-      const tasks = task.data;
-      const taskReadyToClaim = tasks.filter(
-        (item) =>
-          item.status === "READY_FOR_CLAIM" && item.type !== "PROGRESS_TARGET"
-      );
-
-      if (taskReadyToClaim.length > 0) {
-        for (const task of taskReadyToClaim) {
-          try {
-            const claim = await axios.post(
-              `https://game-domain.blum.codes/api/v1/tasks/${task.id}/claim`,
-              {},
-              {
-                headers: {
-                  Authorization: `Bearer ${t.token}`,
-                },
-              }
-            );
-            console.log(claim.data);
-          } catch (error) {
-            console.log(error.message);
-          }
-        }
-      } else {
-        console.log("No task ready to claim");
+    const claim = await axios.post(
+      "https://fishapi.xboost.io/zone/task/paction",
+      {
+        task_id: taskId,
+      },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
       }
-    }
+    );
+    return claim.data.data;
   } catch (error) {
-    console.log("Error on claim mission: ", error.message);
+    console.log(error);
   }
 };

@@ -5,8 +5,7 @@ configDotenv();
 
 exports.getAuthToken = async () => {
   const API_TOKEN = process.env.API_TOKEN || "http://localhost:101";
-  const API_AUTH =
-    "https://gateway.blum.codes/v1/auth/provider/PROVIDER_TELEGRAM_MINI_APP";
+  const API_AUTH = "https://fishapi.xboost.io/index/tglogin";
   const API_BE_URL = process.env.API_TOKEN || "http://localhost:101";
   try {
     const data = await fs.readFile("configs/config.json", "utf-8");
@@ -16,9 +15,13 @@ exports.getAuthToken = async () => {
 
     for (const token of tokens) {
       try {
-        const response = await axios.post(API_AUTH, { query: token.token });
+        const response = await axios.post(API_AUTH, {
+          initData: token.token,
+          inviteCode: null,
+          source: null,
+        });
 
-        const auth = response.data.token.refresh;
+        const auth = response.data.data.login_token;
         authToken.push({ token: auth });
       } catch (error) {
         console.log(error);
@@ -28,13 +31,17 @@ exports.getAuthToken = async () => {
   } catch (error) {
     try {
       const authToken = [];
-      const response = await axios.get(`${API_TOKEN}/token/@BlumCryptoBot`);
+      const response = await axios.get(`${API_TOKEN}/token/@nanonfishBot`);
       const [tokens] = response.data.data;
       for (const token of tokens) {
         try {
-          const response = await axios.post(API_AUTH, { query: token.token });
+          const response = await axios.post(API_AUTH, {
+            initData: token.token,
+            inviteCode: null,
+            source: null,
+          });
 
-          const auth = response.data.token.refresh;
+          const auth = response.data.data.login_token;
           authToken.push({ token: auth });
         } catch (error) {
           if (token.telegramId === undefined) {

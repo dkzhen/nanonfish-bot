@@ -4,16 +4,16 @@ const { getAuthToken } = require("./getAuthToken");
 configDotenv();
 
 exports.validateToken = async () => {
-  const API_URL = "https://game-domain.blum.codes/api/v1/tasks";
+  const API_URL = "https://fishapi.xboost.io/zone/user/gamestate";
   const API_BE_URL = process.env.API_TOKEN || "http://localhost:101";
   const tokens = await getAuthToken();
 
   const validToken = [];
   for (const token of tokens) {
     try {
-      await axios.get(API_URL, {
+      await axios.post(API_URL, {
         headers: {
-          Authorization: `Bearer ${token.token}`,
+          Authorization: `${token.token}`,
         },
       });
 

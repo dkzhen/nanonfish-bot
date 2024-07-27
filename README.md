@@ -1,17 +1,17 @@
-# blum-bot
+# Nanon-fish-bot
 
-blum-bot is a Telegram automation tool designed to help you manage and interact with [blum bot](https://t.me/BlumCryptoBot/app?startapp=ref_g5qK5BurG3).
+nanonfish-bot is a Telegram automation tool designed to help you manage and interact with [Nanon Fish bot](https://t.me/NanonFishBot/NanonFish?startapp=aW52aXRlQ29kZT1nN294ZDU5Mg).
 
 <p align="center">
-  <img src="public/blum.png" alt="blum" width="300"/>
+  <img src="public/nanonfish.png" alt="blum" width="300"/>
 </p>
 
 ### Features
 
-- Auto claim daily Rewards
-- Auto claim farming rewards
-- Auto play game with max points
-- Auto claim mission
+- Auto claim daily Task
+- Auto claim basic Task
+- Auto buy fish
+- Auto combine fish
 - support multi account
 
 ### How to use
@@ -21,7 +21,7 @@ this bot running on my vps you can add your token query
 - open the bot [Group Organizer](https://t.me/GroupOrganizer_Bot)
 - send command `/start`
 - send command `/add`
-- select blum-bot
+- select nanonfish-bot
 - and send your token query (start with `query=`)
 
 OR you can clone repository and add your token query
@@ -29,7 +29,7 @@ OR you can clone repository and add your token query
 - Clone repository
 
 ```bash
-git clone https://github.com/dkzhen/blum-bot.git
+git clone https://github.com/dkzhen/nanonfish-bot.git
 ```
 
 - add config.json on folder configs
